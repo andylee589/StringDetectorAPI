@@ -53,6 +53,7 @@
     <Compile Include="RequestModels\JobConfUpdateRequestModel.cs" />
     <Compile Include="RequestModels\JobCreateRequestModel.cs" />
     <Compile Include="RequestModels\JobLaunchRequestModel.cs" />
+    <Compile Include="RequestModels\JobUpdateOptionalModel.cs" />
     <Compile Include="RequestModels\JobUpdateRequestModel.cs" />
     <Compile Include="Validation\MaximumAttribute.cs" />
     <Compile Include="Validation\MinimunAttribute.cs" />

@@ -9,7 +9,18 @@ namespace StringDetector.API.Model.RequestModels
 {
     public  class JobLaunchRequestModel
     {
-        [Required]
+        public JobLaunchRequestModel(string config)
+        {
+            Configuration = config;
+            Period = 4;
+        }
+
         public string Configuration { get; set; }
+
+
+        [Range(0, 10)]
+        public double Period { get; set; }
+      
+        
     }
 }

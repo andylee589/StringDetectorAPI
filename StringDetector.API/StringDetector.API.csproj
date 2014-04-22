@@ -89,17 +89,34 @@
     <Compile Include="Config\AutofacWebAPI.cs" />
     <Compile Include="Config\RouteConfig.cs" />
     <Compile Include="Config\WebAPIConfig.cs" />
+    <Compile Include="Controllers\JobConfigurationFileController.cs" />
+    <Compile Include="Controllers\JobConfigurationTextController.cs" />
+    <Compile Include="Controllers\JobReportTextController.cs" />
+    <Compile Include="Controllers\JobReportFileController.cs" />
+    <Compile Include="Plugin\ApiControllerActionSelector.cs" />
+    <Compile Include="Plugin\ComplexTypeAwareActionSelector.cs" />
     <Compile Include="Controllers\JobConfigurationController.cs" />
-    <Compile Include="Controllers\JobReportController.cs" />
+    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\JobStateController.cs" />
+    <Compile Include="Controllers\JobStatesController.cs" />
     <Compile Include="Filters\EmptyParameterFilterAttribute.cs" />
+    <Compile Include="Filters\OptionalEmptyParameterFilterAttribute.cs" />
     <Compile Include="Formatting\SuppressedRequiredMemberSelector.cs" />
     <Compile Include="MessageHandlers\StringDetectorAuthHandler.cs" />
     <Compile Include="Model\JobCreateRequestModelExtension.cs" />
     <Compile Include="Model\JobExtensions.cs" />
     <Compile Include="Model\JobStateExtensions.cs" />
     <Compile Include="Model\PaginatedListExtensions.cs" />
+    <Compile Include="Plugin\Error.cs" />
+    <Compile Include="Plugin\HttpParameterBindingExtensions.cs" />
+    <Compile Include="Plugin\HttpRequestMessageExtensions.cs" />
+    <Compile Include="Plugin\Properties\SRResources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SRResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\GuidRouteConstraint.cs" />
   </ItemGroup>
@@ -116,6 +133,12 @@
       <Project>{ba6b1e9d-0bf4-40a6-bdae-65676a6a0d1c}</Project>
       <Name>StringDetector.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Plugin\Properties\SRResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SRResources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,11 +10,11 @@ namespace StringDetector.API.Model.RequestModels
 {
     public class JobUpdateRequestModel
     {
-        [Required]
+       // [Required]
         [StringLength(50)]
         public string ProjectName { get; set; }
 
-        [Required]
+       // [Required]
         public string SourcePath { get; set; }
     }
 }

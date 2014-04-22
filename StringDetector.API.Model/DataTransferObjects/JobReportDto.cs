@@ -13,5 +13,6 @@ namespace StringDetector.API.Model.DataTransferObjects
        public Guid Key { get; set; }
        //public FileStream ReportStream { get; set; }
        public string ReportUrl { get; set; }
+       public string ReportContent { get; set; }
     }
 }

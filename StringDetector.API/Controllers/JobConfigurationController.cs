@@ -13,7 +13,6 @@ using System.Web.Http;
 
 namespace StringDetector.API.Controllers
 {
-     [RoutePrefix("api/jobs/{jobNumber:regex(^[0-9]{6}$)}")]
      public  class JobConfigurationController : ApiController
     {
        private readonly IJobService _jobService;
@@ -22,20 +21,6 @@ namespace StringDetector.API.Controllers
            _jobService = jobService;
        }
 
-       [Route("configuration")]
-       [HttpGet]
-       public JobConfigurationDto GetConfiguration(string jobNumber)
-       {
-           var getJobResult = _jobService.GetJobByJobNumber(jobNumber);
-           if (!getJobResult.IsSuccess)
-           {
-               throw new HttpResponseException(HttpStatusCode.NotFound);
-           }
-           var job = getJobResult.Entity;
-           return new JobConfigurationDto {  Key = job.Key , Configuration = job.Configuration};
-       }
-
-       [Route("configuration")]
        [HttpPut]
        [EmptyParameterFilter("requestModel")]
        public JobConfigurationDto PutConfiguration(string jobNumber, JobConfUpdateRequestModel requestModel)

@@ -30,12 +30,74 @@ namespace StringDetector.API.Config
 
 
             routes.MapHttpRoute(
-                name:"DefaultHttpRoute",
-                routeTemplate:"api/{controller}/{key}",
+                name:"JobsRoute",
+                routeTemplate:"api/jobs/",
                 
-                defaults: new { key = RouteParameter.Optional},
-                constraints: new { key = new GuidRouteConstraint() }
+                defaults: new { controller = "Jobs" }
                );
+
+            routes.MapHttpRoute(
+               name: "JobRoute",
+               routeTemplate: "api/jobs/{jobNumber}",
+
+               defaults: new {   controller ="Job" },
+               constraints: new { jobNumber = @"^[0-9]{6}$" }
+              );
+
+            routes.MapHttpRoute(
+               name: "JobStatesRoute",
+               routeTemplate: "api/jobs/{jobNumber}/states",
+
+               defaults: new { controller = "JobStates" },
+               constraints: new { jobNumber = @"^[0-9]{6}$" }
+            );
+
+            routes.MapHttpRoute(
+              name: "JobStateRoute",
+              routeTemplate: "api/jobs/{jobNumber}/state",
+
+              defaults: new { controller = "JobState" },
+               constraints: new { jobNumber = @"^[0-9]{6}$" }
+           );
+
+            routes.MapHttpRoute(
+              name: "JobConfigurationRoute",
+              routeTemplate: "api/jobs/{jobNumber}/configuration/",
+
+              defaults: new { controller = "JobConfiguration"  },
+               constraints: new { jobNumber = @"^[0-9]{6}$" }
+           );
+
+            routes.MapHttpRoute(
+             name: "JobConfigurationTextRoute",
+             routeTemplate: "api/jobs/{jobNumber}/configuration/text",
+
+             defaults: new { controller = "JobConfigurationText" },
+              constraints: new { jobNumber = @"^[0-9]{6}$" }
+          );
+
+            routes.MapHttpRoute(
+             name: "JobConfigurationFileRoute",
+             routeTemplate: "api/jobs/{jobNumber}/configuration/file",
+
+             defaults: new { controller = "JobConfigurationFile"},
+              constraints: new { jobNumber = @"^[0-9]{6}$" }
+          );
+            routes.MapHttpRoute(
+              name: "JoReportFileRoute",
+              routeTemplate: "api/jobs/{jobNumber}/report/file",
+
+              defaults: new { controller = "JobReportFile" },
+              constraints: new { jobNumber = @"^[0-9]{6}$" }
+           );
+
+            routes.MapHttpRoute(
+             name: "JoReportTextRoute",
+             routeTemplate: "api/jobs/{jobNumber}/report/text",
+
+             defaults: new { controller = "JobReportText" },
+             constraints: new { jobNumber = @"^[0-9]{6}$" }
+          );
 
             // enable route debugger
            // RouteDebug

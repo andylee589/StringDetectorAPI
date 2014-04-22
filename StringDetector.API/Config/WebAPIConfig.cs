@@ -13,6 +13,7 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.Validation;
 using System.Web.Http.Validation.Providers;
 using WebApiDoodle.Web.Controllers;
+using WebApiDoodle.Web.Filters;
 //using PingYourPackage.API.Model.RequestCommands;
 //using WebApiDoodle.Web.Filters;
 
@@ -24,12 +25,8 @@ namespace StringDetector.API.Config
        {
           //Enable system diagnostics tracing
            config.EnableSystemDiagnosticsTracing();
-
-
            // Message Handlers
-          
            //config.MessageHandlers.Add(new StringDetectorAuthHandler());
-
            // Formatters
            var jqueryFormatter = config.Formatters.FirstOrDefault(
                x => x.GetType() ==
@@ -37,7 +34,6 @@ namespace StringDetector.API.Config
 
            config.Formatters.Remove(
                config.Formatters.FormUrlEncodedFormatter);
-
            config.Formatters.Remove(jqueryFormatter);
 
            // Suppressing the IRequiredMemberSelector for all formatters
@@ -49,7 +45,7 @@ namespace StringDetector.API.Config
            }
 
            //// Filters
-           //config.Filters.Add(new InvalidModelStateFilterAttribute());
+           config.Filters.Add(new InvalidModelStateFilterAttribute());
 
            //Default Services
 
