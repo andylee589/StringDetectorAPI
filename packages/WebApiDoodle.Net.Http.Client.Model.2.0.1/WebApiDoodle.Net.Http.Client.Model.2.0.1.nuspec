@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>WebApiDoodle.Net.Http.Client.Model</id>
+    <version>2.0.1</version>
+    <title>WebApiDoodle.Net.Http.Client.Model</title>
+    <authors>Tugberk Ugurlu</authors>
+    <owners>Tugberk Ugurlu</owners>
+    <licenseUrl>https://raw.github.com/WebAPIDoodle/WebAPIDoodle/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/WebAPIDoodle/WebAPIDoodle</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WebApiDoodle.Net.Http.Client.Model...</description>
+    <copyright>Copyright Tugberk Ugurlu 2012</copyright>
+    <tags>http client httpclient webapi aspnetwebapi dotnet</tags>
+  </metadata>
+</package>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDetector.API", "StringDetector.API\StringDetector.API.csproj", "{4362E648-7E56-4221-81DB-6E5357EDC7F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDetector.API.Model", "StringDetector.API.Model\StringDetector.API.Model.csproj", "{1B16F747-FB0B-4458-BCF8-9745E73283B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDetector.Domain", "StringDetector.Domain\StringDetector.Domain.csproj", "{BA6B1E9D-0BF4-40A6-BDAE-65676A6A0D1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDetector.API.WebHost", "StringDetector.API.WebHost\StringDetector.API.WebHost.csproj", "{202719AC-1302-46B2-A11D-D966718149B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDetector.API.Client", "StringDetector.API.Client\StringDetector.API.Client.csproj", "{14209686-8887-4BBF-BE72-5F9FCCAB1F82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StromgDetector.API.Test", "TestForAPI\StromgDetector.API.Test.csproj", "{C5989571-44D7-4ABC-B86C-F4C302DB442C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4362E648-7E56-4221-81DB-6E5357EDC7F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4362E648-7E56-4221-81DB-6E5357EDC7F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4362E648-7E56-4221-81DB-6E5357EDC7F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4362E648-7E56-4221-81DB-6E5357EDC7F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B16F747-FB0B-4458-BCF8-9745E73283B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B16F747-FB0B-4458-BCF8-9745E73283B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B16F747-FB0B-4458-BCF8-9745E73283B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B16F747-FB0B-4458-BCF8-9745E73283B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA6B1E9D-0BF4-40A6-BDAE-65676A6A0D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA6B1E9D-0BF4-40A6-BDAE-65676A6A0D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA6B1E9D-0BF4-40A6-BDAE-65676A6A0D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA6B1E9D-0BF4-40A6-BDAE-65676A6A0D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{202719AC-1302-46B2-A11D-D966718149B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{202719AC-1302-46B2-A11D-D966718149B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{202719AC-1302-46B2-A11D-D966718149B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{202719AC-1302-46B2-A11D-D966718149B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14209686-8887-4BBF-BE72-5F9FCCAB1F82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14209686-8887-4BBF-BE72-5F9FCCAB1F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14209686-8887-4BBF-BE72-5F9FCCAB1F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14209686-8887-4BBF-BE72-5F9FCCAB1F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
