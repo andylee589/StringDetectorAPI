@@ -89,17 +89,21 @@
     <Compile Include="Config\AutofacWebAPI.cs" />
     <Compile Include="Config\RouteConfig.cs" />
     <Compile Include="Config\WebAPIConfig.cs" />
-    <Compile Include="Controllers\JobConfigurationFileController.cs" />
-    <Compile Include="Controllers\JobConfigurationTextController.cs" />
-    <Compile Include="Controllers\JobReportTextController.cs" />
-    <Compile Include="Controllers\JobReportFileController.cs" />
-    <Compile Include="Plugin\ApiControllerActionSelector.cs" />
-    <Compile Include="Plugin\ComplexTypeAwareActionSelector.cs" />
+    <Compile Include="Controllers\JobReportController.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\CollectionExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\DictionaryExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\EfficientTypePropertyKey.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\HttpErrorConstants.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\HttpErrorExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\ListWrapperCollection.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\TaskHelpers.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Common\TaskHelpersExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Routing\CandidateAction.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Controller\CustomComplexTypeAwareActionSelector.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Controller\ComplexTypeAwareActionSelector.cs" />
     <Compile Include="Controllers\JobConfigurationController.cs" />
-    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\JobStateController.cs" />
-    <Compile Include="Controllers\JobStatesController.cs" />
     <Compile Include="Filters\EmptyParameterFilterAttribute.cs" />
     <Compile Include="Filters\OptionalEmptyParameterFilterAttribute.cs" />
     <Compile Include="Formatting\SuppressedRequiredMemberSelector.cs" />
@@ -108,15 +112,25 @@
     <Compile Include="Model\JobExtensions.cs" />
     <Compile Include="Model\JobStateExtensions.cs" />
     <Compile Include="Model\PaginatedListExtensions.cs" />
-    <Compile Include="Plugin\Error.cs" />
-    <Compile Include="Plugin\HttpParameterBindingExtensions.cs" />
-    <Compile Include="Plugin\HttpRequestMessageExtensions.cs" />
-    <Compile Include="Plugin\Properties\SRResources1.Designer.cs">
+    <Compile Include="Plugin\CustomWebAPI\Controller\HttpActionDescriptorExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Controller\HttpControllerDescriptorExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Error\Error.cs" />
+    <Compile Include="Plugin\CustomWebAPI\HttpError.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Internal\HttpParameterBindingExtensions.cs" />
+    <Compile Include="Properties\CommonWebApiResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonWebApiResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin\CustomWebAPI\Internal\TypeHelper.cs" />
+    <Compile Include="Properties\SRResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SRResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Plugin\TypeHelper.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Routing\HttpRouteExtensions.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Routing\RouteDataTokenKeys.cs" />
+    <Compile Include="Plugin\CustomWebAPI\Routing\RouteValueKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\GuidRouteConstraint.cs" />
   </ItemGroup>
@@ -135,10 +149,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Plugin\Properties\SRResources.resx">
+    <EmbeddedResource Include="Properties\CommonWebApiResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SRResources1.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommonWebApiResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\SRResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SRResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Connector\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

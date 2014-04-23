@@ -1,37 +1,31 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 
-namespace WebApiDoodle.Web
+namespace Custom.System.Web.Http.Internal
 {
-
     /// <summary>
     /// A static class that provides various <see cref="Type"/> related helpers.
     /// </summary>
-    /// <remarks>Taken from ASP.NET Web API source code.</remarks>
-    internal static class TypeHelper
+    public static class TypeHelper
     {
+        public static readonly Type TaskGenericType = typeof(Task<>);
 
-        private static readonly Type TaskGenericType = typeof(Task<>);
+        public static readonly Type ApiControllerType = typeof(ApiController);
 
-        internal static readonly Type HttpControllerType = typeof(IHttpController);
-        internal static readonly Type ApiControllerType = typeof(ApiController);
-
-        internal static Type GetTaskInnerTypeOrNull(Type type)
+        public static Type GetTaskInnerTypeOrNull(Type type)
         {
-
             Contract.Assert(type != null);
             if (type.IsGenericType && !type.IsGenericTypeDefinition)
             {
                 Type genericTypeDefinition = type.GetGenericTypeDefinition();
-                // REVIEW: should we consider subclasses of Task<> ??
+
                 if (TaskGenericType == genericTypeDefinition)
                 {
                     return type.GetGenericArguments()[0];
@@ -41,16 +35,8 @@ namespace WebApiDoodle.Web
             return null;
         }
 
-        internal static Type ExtractGenericInterface(Type queryType, Type interfaceType)
+        public static Type[] GetTypeArgumentsIfMatch(Type closedType, Type matchingOpenType)
         {
-
-            Func<Type, bool> matchesInterface = t => t.IsGenericType && t.GetGenericTypeDefinition() == interfaceType;
-            return matchesInterface(queryType) ? queryType : queryType.GetInterfaces().FirstOrDefault(matchesInterface);
-        }
-
-        internal static Type[] GetTypeArgumentsIfMatch(Type closedType, Type matchingOpenType)
-        {
-
             if (!closedType.IsGenericType)
             {
                 return null;
@@ -60,27 +46,23 @@ namespace WebApiDoodle.Web
             return (matchingOpenType == openType) ? closedType.GetGenericArguments() : null;
         }
 
-        internal static bool IsCompatibleObject(Type type, object value)
+        public static bool IsCompatibleObject(Type type, object value)
         {
-
             return (value == null && TypeAllowsNullValue(type)) || type.IsInstanceOfType(value);
         }
 
-        internal static bool IsNullableValueType(Type type)
+        public static bool IsNullableValueType(Type type)
         {
-
             return Nullable.GetUnderlyingType(type) != null;
         }
 
-        internal static bool TypeAllowsNullValue(Type type)
+        public static bool TypeAllowsNullValue(Type type)
         {
-
             return !type.IsValueType || IsNullableValueType(type);
         }
 
-        internal static bool IsSimpleType(Type type)
+        public static bool IsSimpleType(Type type)
         {
-
             return type.IsPrimitive ||
                    type.Equals(typeof(string)) ||
                    type.Equals(typeof(DateTime)) ||
@@ -90,9 +72,8 @@ namespace WebApiDoodle.Web
                    type.Equals(typeof(TimeSpan));
         }
 
-        internal static bool IsSimpleUnderlyingType(Type type)
+        public static bool IsSimpleUnderlyingType(Type type)
         {
-
             Type underlyingType = Nullable.GetUnderlyingType(type);
             if (underlyingType != null)
             {
@@ -102,9 +83,14 @@ namespace WebApiDoodle.Web
             return TypeHelper.IsSimpleType(type);
         }
 
-        internal static bool HasStringConverter(Type type)
+        public static bool CanConvertFromString(Type type)
         {
+            return TypeHelper.IsSimpleUnderlyingType(type) ||
+                TypeHelper.HasStringConverter(type);
+        }
 
+        public static bool HasStringConverter(Type type)
+        {
             return TypeDescriptor.GetConverter(type).CanConvertFrom(typeof(string));
         }
 
@@ -113,15 +99,13 @@ namespace WebApiDoodle.Web
         /// </summary>
         /// <typeparam name="T">type to search for</typeparam>
         /// <returns>subset of objects that can be assigned to T</returns>
-        internal static ReadOnlyCollection<T> OfType<T>(object[] objects) where T : class
+        public static ReadOnlyCollection<T> OfType<T>(object[] objects) where T : class
         {
-
             int max = objects.Length;
             List<T> list = new List<T>(max);
             int idx = 0;
             for (int i = 0; i < max; i++)
             {
-
                 T attr = objects[i] as T;
                 if (attr != null)
                 {

@@ -14,6 +14,7 @@ using System.Net.Http;
 
 namespace StringDetector.API.Controllers
 {
+    [RoutePrefix("api/jobs/{jobNumber:regex(^[0-9]{6}$)}")]
     public  class JobStateController : ApiController
     {
         private readonly IJobService _jobService;
@@ -25,7 +26,20 @@ namespace StringDetector.API.Controllers
            _jobStateService = jobStateService;
        }
 
+        [Route("states")]
+        [HttpGet]
+        public PaginatedDto<JobStateDto> GetStates(string jobNumber)
+        {
+            var getStatesResult = _jobStateService.GetAllStatesByJobNumber(jobNumber);
+            if (!getStatesResult.IsSuccess)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            var jobStates = getStatesResult.Entity;
+            return jobStates.ToPaginatedDto(jobStates.Select(jobState => jobState.ToJobStateDto()));
+        }
 
+        [Route("state")]
         [HttpGet]
         public JobStateDto GetState(string jobNumber)
         {
@@ -39,6 +53,7 @@ namespace StringDetector.API.Controllers
         }
 
 
+        [Route("state")]
         [HttpPost]
         public HttpResponseMessage PostState(string jobNumber ,string action)
         {

@@ -20,7 +20,7 @@ using System.ComponentModel;
 
 namespace StringDetector.API.Controllers
 {
-  
+   [RoutePrefix("api/jobs")]
    public  class JobsController : ApiController
     {
        private readonly IJobService _jobService;
@@ -33,10 +33,9 @@ namespace StringDetector.API.Controllers
            _autoKeyService = autoKeyService;
        }
 
-
-       // becase the complex type parameter binding are invoken after action slected ,  It will cause two same action for same url and same http verb. I try to explict the complext type into simple type and it works.
+       /*****************************************About Jobs************************************/
       // [EmptyParameterFilter("cmd")]
- 
+       [Route("")]
        [HttpGet]
        public PaginatedDto<JobDto> GetJobsCmd([FromUri]PaginatedRequestCommand cmd )
        {
@@ -45,7 +44,7 @@ namespace StringDetector.API.Controllers
           // var jobs = _jobService.GetJobs(page, take);
            return jobs.ToPaginatedDto(jobs.Select(job => job.ToJobDto()));
        }
-
+        [Route("")]
        [HttpGet]
        public PaginatedDto<JobDto> Getjobs()
        {
@@ -53,6 +52,7 @@ namespace StringDetector.API.Controllers
            return jobs.ToPaginatedDto(jobs.Select(job => job.ToJobDto()));
        }
 
+       [Route("")]
        // will implement POE later
        [HttpPost]
        [EmptyParameterFilter("requestModel")]
@@ -83,6 +83,99 @@ namespace StringDetector.API.Controllers
            
        }
 
+       /*****************************************About Job************************************/
+       [Route("{jobNumber:regex(^[0-9]{6}$)}")]
+       [HttpGet]
+
+       public JobDto GetJob(string jobNumber)
+       {
+           var operationResult = _jobService.GetJobByJobNumber(jobNumber);
+           if (!operationResult.IsSuccess)
+           {
+               throw new HttpResponseException(HttpStatusCode.NotFound);
+           }
+
+           return operationResult.Entity.ToJobDto();
+       }
+
+
+       [Route("{jobNumber:regex(^[0-9]{6}$)}")]
+       [HttpPost]
+       // [OptionalEmptyParameterFilter("withModel","requestModel")]
+       public HttpResponseMessage PostJob(string jobNumber, JobLaunchRequestModel requestModel /*, bool withModel = false*/)
+       {
+           var getJobResult = _jobService.GetJobByJobNumber(jobNumber);
+           if (!getJobResult.IsSuccess)
+           {
+               return new HttpResponseMessage(HttpStatusCode.NotFound);
+           }
+           var job = getJobResult.Entity;
+           var getStateResult = _jobStateService.GetLatestStateByJobKey(job.Key);
+           var latesState = getStateResult.Entity;
+           if (latesState.JobStatus == JobStatusEnum.BEGIN_LAUNCH || latesState.JobStatus == JobStatusEnum.RUNNING)
+           {
+               return new HttpResponseMessage(HttpStatusCode.BadRequest);
+           }
+           requestModel = requestModel ?? new JobLaunchRequestModel(job.Configuration);
+           string configuration = requestModel.Configuration;
+           double period = requestModel.Period;
+
+           _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH);
+           //begin finding the source path
+
+           //job launched
+           _jobService.AddJobState(jobNumber, JobStatusEnum.RUNNING);
+           // asynchronous task for running string detector
+
+           return new HttpResponseMessage(HttpStatusCode.Accepted);
+
+       }
+
+
+       [Route("{jobNumber:regex(^[0-9]{6}$)}")]
+       [HttpPut]
+       [EmptyParameterFilter("requestModel")]
+       public JobDto PutJob(string jobNumber, JobUpdateRequestModel requestModel)
+       {
+
+           var getJobResult = _jobService.GetJobByJobNumber(jobNumber);
+           if (!getJobResult.IsSuccess)
+           {
+               throw new HttpResponseException(HttpStatusCode.NotFound);
+           }
+           var job = getJobResult.Entity;
+           PropertyInfo[] properties = requestModel.GetType().GetProperties();
+           foreach (PropertyInfo info in properties)
+           {
+               object value = info.GetValue(requestModel);
+               if (value != null)
+               {
+                   PropertyInfo property = job.GetType().GetProperty(info.Name);
+                   if (property != null)
+                   {
+                       property.SetValue(job, value);
+                   }
+               }
+           }
+
+           // some other property for update
+
+           var updatedJobResult = _jobService.UpdateJobByJobNumber(jobNumber, job);
+           if (!updatedJobResult.IsSuccess)
+           {
+               throw new HttpResponseException(HttpStatusCode.NotFound);
+           }
+           var updatedJob = updatedJobResult.Entity;
+           return updatedJob.ToJobDto();
+       }
+
+
+       [Route("{jobNumber:regex(^[0-9]{6}$)}")]
+       [HttpPut]
+       public JobDto PutJob(string jobNumber, [FromUri] JobUpdateOptionalModel requestModel)
+       {
+           return null;
+       }
      
     }
 }

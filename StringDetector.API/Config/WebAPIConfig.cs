@@ -1,4 +1,5 @@
-﻿using StringDetector.API.Formatting;
+﻿using Custom.System.Web.Http.Controllers;
+using StringDetector.API.Formatting;
 using StringDetector.API.MessageHandlers;
 using StringDetector.API.Model.RequestCommands;
 using System;
@@ -14,8 +15,6 @@ using System.Web.Http.Validation;
 using System.Web.Http.Validation.Providers;
 using WebApiDoodle.Web.Controllers;
 using WebApiDoodle.Web.Filters;
-//using PingYourPackage.API.Model.RequestCommands;
-//using WebApiDoodle.Web.Filters;
 
 namespace StringDetector.API.Config
 {
@@ -73,7 +72,7 @@ namespace StringDetector.API.Config
            // WebAPIDoodle.Controllers.ComplexTypeAwareActionSelector
            config.Services.Replace(
                typeof(IHttpActionSelector),
-               new ComplexTypeAwareActionSelector());
+               new CustomApiControllerActionSelector());
 
        }
     }
