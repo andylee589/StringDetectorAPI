@@ -38,7 +38,7 @@ namespace StringDetector.API.Client
 
                         }, isThreadSafe: true);
 
-        internal ConcurrentDictionary<Type, object> Clients
+        public ConcurrentDictionary<Type, object> Clients
         {
 
             get { return _clients.Value; }
@@ -48,7 +48,7 @@ namespace StringDetector.API.Client
        // internal string AuthorizationValue { get; set; }
        // internal string AffiliateKey { get; set; }
 
-        internal HttpClient HttpClient
+        public HttpClient HttpClient
         {
 
             get

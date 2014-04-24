@@ -12,7 +12,7 @@ namespace StringDetector.Domain.Services
         OperationResult<PaginatedList<JobStateEntity>> GetAllStatesByJobNumber(String jobNumber);
         OperationResult<PaginatedList<JobStateEntity>> GetAllStatesByJobKey(Guid key);
         OperationResult<JobStateEntity> GetLatestStateByJobNumber(String jobNumber);
-        OperationResult<JobStateEntity> GetLatestStateByJobKey(Guid key); 
-
+        OperationResult<JobStateEntity> GetLatestStateByJobKey(Guid key);
+        OperationResult DeleteJobState(JobStateEntity jobState);
     }
 }

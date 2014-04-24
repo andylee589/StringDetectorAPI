@@ -65,5 +65,13 @@ namespace StringDetector.Domain.Services
            var jobState = _jobStateRepository.GetLatestStateByJobKey(key);
            return new OperationResult<JobStateEntity>(true) { Entity = jobState };
        }
+
+
+       public OperationResult DeleteJobState(JobStateEntity jobState)
+       {
+           _jobStateRepository.Delete(jobState);
+           _jobStateRepository.Save();
+           return new OperationResult (true);
+       }
     }
 }

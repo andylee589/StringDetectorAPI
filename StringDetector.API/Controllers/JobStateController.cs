@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiDoodle.Net.Http.Client.Model;
 using System.Net.Http;
+using StringDetector.Domain.Entities;
+using StringDetector.API.Connector;
 
 
 namespace StringDetector.API.Controllers
@@ -19,11 +21,13 @@ namespace StringDetector.API.Controllers
     {
         private readonly IJobService _jobService;
         private readonly IJobStateService _jobStateService;
+        private readonly IConnector _connector;
 
-        public JobStateController(IJobService jobService , IJobStateService jobStateService)
+        public JobStateController(IJobService jobService , IJobStateService jobStateService, IConnector connector)
        {
            _jobService = jobService;
            _jobStateService = jobStateService;
+           _connector = connector;
        }
 
         [Route("states")]
@@ -49,28 +53,23 @@ namespace StringDetector.API.Controllers
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             var jobState = getStateResult.Entity;
+            // check if the job is sting running before returning the latest state
+            if (jobState.JobStatus == JobStatusEnum.RUNNING || jobState.JobStatus == JobStatusEnum.BEGIN_LAUNCH)
+            {
+               var isRunningResult =  _connector.CheckIsJobRunning(jobNumber);
+
+               if (!isRunningResult.IsSuccess)
+               {
+                   // default we set the job ends with success
+                   jobState =  _jobService.AddJobState(jobNumber, JobStatusEnum.ENDS_WITH_SUCCESS).Entity;
+               }
+            }
+
+
             return jobState.ToJobStateDto();
         }
 
 
-        [Route("state")]
-        [HttpPost]
-        public HttpResponseMessage PostState(string jobNumber ,string action)
-        {
-
-            if (action == "pause")
-            {
-
-            }
-            else if (action == "stop")
-            {
-
-            }
-            else
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-            return new HttpResponseMessage(HttpStatusCode.OK);
-        }
+     
     }
 }

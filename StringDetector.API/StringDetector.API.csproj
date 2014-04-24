@@ -72,6 +72,9 @@
     <Reference Include="WebApiDoodle.Net.Http">
       <HintPath>..\packages\WebApiDoodle.Net.Http.2.0.1\lib\net40\WebApiDoodle.Net.Http.dll</HintPath>
     </Reference>
+    <Reference Include="WebApiDoodle.Net.Http.Client">
+      <HintPath>..\packages\WebApiDoodle.Net.Http.Client.2.0.1\lib\net40\WebApiDoodle.Net.Http.Client.dll</HintPath>
+    </Reference>
     <Reference Include="WebApiDoodle.Net.Http.Client.Model">
       <HintPath>..\packages\WebApiDoodle.Net.Http.Client.Model.2.0.1\lib\net40\WebApiDoodle.Net.Http.Client.Model.dll</HintPath>
     </Reference>
@@ -89,6 +92,12 @@
     <Compile Include="Config\AutofacWebAPI.cs" />
     <Compile Include="Config\RouteConfig.cs" />
     <Compile Include="Config\WebAPIConfig.cs" />
+    <Compile Include="Connector\ApiClientContextExtensions.cs" />
+    <Compile Include="Connector\IConnector.cs" />
+    <Compile Include="Connector\ITJobClient.cs" />
+    <Compile Include="Connector\TJobClient.cs" />
+    <Compile Include="Connector\StringDetectorConnector.cs" />
+    <Compile Include="Connector\TJob.cs" />
     <Compile Include="Controllers\JobReportController.cs" />
     <Compile Include="Plugin\CustomWebAPI\Common\CollectionExtensions.cs" />
     <Compile Include="Plugin\CustomWebAPI\Common\DictionaryExtensions.cs" />
@@ -100,7 +109,6 @@
     <Compile Include="Plugin\CustomWebAPI\Common\TaskHelpersExtensions.cs" />
     <Compile Include="Plugin\CustomWebAPI\Routing\CandidateAction.cs" />
     <Compile Include="Plugin\CustomWebAPI\Controller\CustomComplexTypeAwareActionSelector.cs" />
-    <Compile Include="Plugin\CustomWebAPI\Controller\ComplexTypeAwareActionSelector.cs" />
     <Compile Include="Controllers\JobConfigurationController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\JobStateController.cs" />
@@ -139,6 +147,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StringDetector.API.Client\StringDetector.API.Client.csproj">
+      <Project>{14209686-8887-4bbf-be72-5f9fccab1f82}</Project>
+      <Name>StringDetector.API.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StringDetector.API.Model\StringDetector.API.Model.csproj">
       <Project>{1b16f747-fb0b-4458-bcf8-9745e73283b0}</Project>
       <Name>StringDetector.API.Model</Name>
@@ -160,9 +172,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Connector\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StringDetector.API.Client
 {
-    internal sealed class MediaTypeFormatterCollection : ReadOnlyCollection<MediaTypeFormatter>
+    public sealed class MediaTypeFormatterCollection : ReadOnlyCollection<MediaTypeFormatter>
     {
 
         private static readonly Lazy<MediaTypeFormatterCollection> lazy =

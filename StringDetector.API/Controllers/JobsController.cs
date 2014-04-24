@@ -16,6 +16,7 @@ using StringDetector.Domain.Entities;
 using StringDetector.API.Filters;
 using System.Reflection;
 using System.ComponentModel;
+using StringDetector.API.Connector;
 
 
 namespace StringDetector.API.Controllers
@@ -26,11 +27,14 @@ namespace StringDetector.API.Controllers
        private readonly IJobService _jobService;
        private readonly IJobStateService _jobStateService;
        private readonly IAutoGenerateKeyService _autoKeyService;
-       public JobsController(IJobService jobService, IJobStateService jobStateService,IAutoGenerateKeyService autoKeyService)
+       private readonly IConnector _connector;
+
+       public JobsController(IJobService jobService, IJobStateService jobStateService,IAutoGenerateKeyService autoKeyService, IConnector connector)
        {
            _jobService = jobService;
            _jobStateService = jobStateService;
            _autoKeyService = autoKeyService;
+           _connector = connector;
        }
 
        /*****************************************About Jobs************************************/
@@ -63,7 +67,6 @@ namespace StringDetector.API.Controllers
                {
                    requestModel.JobNumber = _autoKeyService.getNextKey().ToString();
                }
-              
            }
 
            if(_jobService.isJobExsistsByJobNumber(requestModel.JobNumber)){
@@ -98,11 +101,11 @@ namespace StringDetector.API.Controllers
            return operationResult.Entity.ToJobDto();
        }
 
-
-       [Route("{jobNumber:regex(^[0-9]{6}$)}")]
+       // start the job
+       [Route("{jobNumber:regex(^[0-9]{6}$)}/Task")]
        [HttpPost]
        // [OptionalEmptyParameterFilter("withModel","requestModel")]
-       public HttpResponseMessage PostJob(string jobNumber, JobLaunchRequestModel requestModel /*, bool withModel = false*/)
+       public HttpResponseMessage PostJob(string jobNumber, JobLaunchRequestModel requestModel )
        {
            var getJobResult = _jobService.GetJobByJobNumber(jobNumber);
            if (!getJobResult.IsSuccess)
@@ -120,16 +123,62 @@ namespace StringDetector.API.Controllers
            string configuration = requestModel.Configuration;
            double period = requestModel.Period;
 
-           _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH);
-           //begin finding the source path
+
+           //check  whether the job sourcep path and configuration file exesists in the tool provider;
+           if (!_connector.CheckIsReadyForLaunch(job.SourcePath).IsSuccess)
+           {
+               return new HttpResponseMessage(HttpStatusCode.BadRequest);
+           }
+        //   var launchJobState = _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH).Entity;
+           if (!_connector.LaunchJob(jobNumber, job.SourcePath).IsSuccess)
+           {
+            //   _jobStateService.DeleteJobState(launchJobState);
+               return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+           }
 
            //job launched
            _jobService.AddJobState(jobNumber, JobStatusEnum.RUNNING);
            // asynchronous task for running string detector
 
            return new HttpResponseMessage(HttpStatusCode.Accepted);
-
        }
+
+
+       // stop the job
+       [Route("{jobNumber:regex(^[0-9]{6}$)}/Task")]
+       [HttpDelete]
+       public HttpResponseMessage DeleteJobTask(string jobNumber)
+       {
+
+           if (_connector.StopJob(jobNumber).IsSuccess)
+           {
+               return new HttpResponseMessage(HttpStatusCode.OK);
+           }
+           else
+           {
+               return new HttpResponseMessage(HttpStatusCode.BadRequest);
+           }
+          
+       }
+
+       // other  operations on  job, action : pause ,restart and so on
+
+       [Route("{jobNumber:regex(^[0-9]{6}$)}/Task")]
+       [HttpDelete]
+       public HttpResponseMessage PutJobTask(string jobNumber, [FromBody]string state)
+       {
+           if (state == "pause")
+           {
+
+           }
+           else if (state == "restart")
+           {
+
+           }
+
+           return new HttpResponseMessage(HttpStatusCode.OK);
+       }
+
 
 
        [Route("{jobNumber:regex(^[0-9]{6}$)}")]
