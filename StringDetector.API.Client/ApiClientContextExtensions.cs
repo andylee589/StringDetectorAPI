@@ -36,6 +36,8 @@ namespace StringDetector.API.Client
             return apiClientContext.GetClient<IJobStateClient>(() => new JobStateClient(apiClientContext.HttpClient));
         }
 
+
+
         internal static TClient GetClient<TClient>(this ApiClientContext apiClientContext, Func<TClient> valueFactory)
         {
 

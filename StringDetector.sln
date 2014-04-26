@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDetector.API.Client",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StromgDetector.API.Test", "TestForAPI\StromgDetector.API.Test.csproj", "{C5989571-44D7-4ABC-B86C-F4C302DB442C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsApp", "..\..\..\Desktop\Project\ProductsApp\ProductsApp.csproj", "{82A2BBF8-E464-44DE-AEDB-896BDE4F91D7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5989571-44D7-4ABC-B86C-F4C302DB442C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82A2BBF8-E464-44DE-AEDB-896BDE4F91D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82A2BBF8-E464-44DE-AEDB-896BDE4F91D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82A2BBF8-E464-44DE-AEDB-896BDE4F91D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82A2BBF8-E464-44DE-AEDB-896BDE4F91D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

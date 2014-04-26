@@ -119,29 +119,47 @@ namespace StringDetector.API.Controllers
            {
                return new HttpResponseMessage(HttpStatusCode.BadRequest);
            }
+
+           //if (requestModel != null)
+           //{
+           //    string configuration = requestModel.Configuration;
+           //    // post the configuration to the tool end
+
+           //}
+
+
            requestModel = requestModel ?? new JobLaunchRequestModel(job.Configuration);
            string configuration = requestModel.Configuration;
-           double period = requestModel.Period;
+           // update configiguration
 
+
+
+           double period = requestModel.Period;
 
            //check  whether the job sourcep path and configuration file exesists in the tool provider;
            if (!_connector.CheckIsReadyForLaunch(job.SourcePath).IsSuccess)
            {
                return new HttpResponseMessage(HttpStatusCode.BadRequest);
            }
-        //   var launchJobState = _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH).Entity;
-           if (!_connector.LaunchJob(jobNumber, job.SourcePath).IsSuccess)
+           JobStateEntity launchJobState = _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH).Entity;
+           var apiResponse =  _connector.LaunchJobAsync(jobNumber, job.SourcePath);
+           TJob tjob = apiResponse.Model;
+
+           if (!apiResponse.IsSuccess)
            {
-            //   _jobStateService.DeleteJobState(launchJobState);
+               _jobStateService.DeleteJobState(launchJobState);
                return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
            }
-
            //job launched
            _jobService.AddJobState(jobNumber, JobStatusEnum.RUNNING);
-           // asynchronous task for running string detector
+           // save the report path
+           string reportPath = tjob.reportPath;
+           job.Report = reportPath;
+           _jobService.UpdateJobByJobNumber(job.JobNumber,job);
 
            return new HttpResponseMessage(HttpStatusCode.Accepted);
        }
+
 
 
        // stop the job
@@ -149,16 +167,26 @@ namespace StringDetector.API.Controllers
        [HttpDelete]
        public HttpResponseMessage DeleteJobTask(string jobNumber)
        {
-
-           if (_connector.StopJob(jobNumber).IsSuccess)
+           var getJobResult = _jobService.GetJobByJobNumber(jobNumber);
+           if (!getJobResult.IsSuccess)
            {
-               return new HttpResponseMessage(HttpStatusCode.OK);
+               return new HttpResponseMessage(HttpStatusCode.NotFound);
            }
-           else
+           var job = getJobResult.Entity;
+           var getStateResult = _jobStateService.GetLatestStateByJobKey(job.Key);
+           var latesState = getStateResult.Entity;
+           if (latesState.JobStatus == JobStatusEnum.BEGIN_LAUNCH || latesState.JobStatus == JobStatusEnum.RUNNING)
            {
-               return new HttpResponseMessage(HttpStatusCode.BadRequest);
+               if (_connector.StopJob(jobNumber).IsSuccess)
+               {
+                   return new HttpResponseMessage(HttpStatusCode.OK);
+               }
+               else
+               {
+                   return new HttpResponseMessage(HttpStatusCode.BadRequest);
+               }
            }
-          
+           return new HttpResponseMessage(HttpStatusCode.BadRequest);
        }
 
        // other  operations on  job, action : pause ,restart and so on

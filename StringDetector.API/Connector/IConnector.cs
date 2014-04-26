@@ -6,15 +6,16 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using WebApiDoodle.Net.Http.Client;
 
 namespace StringDetector.API.Connector
 {
    public interface IConnector
     {
-          OperationResult<String> LaunchJob (string jobNumber,string configurationDirectory);
-          OperationResult StopJob(string jobNumber);
-          OperationResult<String> CheckIsJobRunning(string jobNumber);
-          OperationResult CheckIsReadyForLaunch(string sourcePath);
+          HttpApiResponseMessage<TJob> LaunchJobAsync(string jobNumber, string configurationDirectory);
+          HttpApiResponseMessage StopJob(string jobNumber);
+          OperationResult<string> CheckIsReadyForLaunch(string sourcePath);
+          OperationResult<string> CheckIsJobRunning(string jobNumber);
 
     }
 }

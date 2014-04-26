@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Nito.AsyncEx.AsyncDiagnostics</id>
+    <version>1.0.2</version>
+    <title>Async Diagnostics</title>
+    <authors>Stephen Cleary</authors>
+    <owners>Stephen Cleary</owners>
+    <projectUrl>https://github.com/StephenCleary/AsyncDiagnostics</projectUrl>
+    <iconUrl>https://raw.github.com/StephenCleary/AsyncDiagnostics/master/icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Easy-to-use exception causality chains for async/await.</description>
+    <summary>Easy-to-use exception causality chains for async/await.</summary>
+    <releaseNotes />
+    <language>en-US</language>
+    <tags>stack call-stack causality-chain nito async await async-await asynchronous net45</tags>
+    <dependencies>
+      <dependency id="PostSharp" version="3.1" />
+      <dependency id="Microsoft.Bcl.Immutable" />
+    </dependencies>
+  </metadata>
+</package>

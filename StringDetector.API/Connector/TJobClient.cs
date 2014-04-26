@@ -13,7 +13,7 @@ namespace StringDetector.API.Connector
     public class TJobClient : HttpApiClient<TJob>, ITJobClient
     {
         private const string BaseUriForJobsTemplate = "jobs";
-        private const string BaseUriForJobTemplate = "jobs/{{jobNumber}}";
+        private const string BaseUriForJobTemplate = "jobs/{jobNumber}";
         
 
         public TJobClient(HttpClient httpClient)
@@ -23,28 +23,27 @@ namespace StringDetector.API.Connector
         }
 
 
-        public async Task<System.Net.Http.HttpResponseMessage> SubmitJobAsync(string jobNumber, string configuration, string reportPath, string appPath = "C:\\Dev\\String_Detector\\string_detector.bat")
+        public    HttpApiResponseMessage<TJob> SubmitJob(string jobNumber, string configuration, string reportPath= "empty", string appPath = "C:\\Dev\\String_Detector\\string_detector.bat")
         {
             var parameters = new { JobNumber = jobNumber, AppPath = appPath, configuration = configuration, reportPath = reportPath };
             var responseTask = base.PostAsync(BaseUriForJobsTemplate, parameters);
-            var response = await ClientHelper.HandleResponseMessageAsync(responseTask);
+            var response = responseTask.Result;
             return response;
         }
 
-        public async  Task<System.Net.Http.HttpResponseMessage> GetJobStatusAsync(string jobNumber)
+        public HttpApiResponseMessage<TJob> GetJobStatus(string jobNumber)
         {
             var parameters = new { jobNumber = jobNumber };
             var responseTask = base.GetSingleAsync(BaseUriForJobTemplate,parameters);
-            var response  = await ClientHelper.HandleResponseMessageAsync(responseTask);
+            var response = responseTask.Result;
             return response;
         }
 
-        public async Task<System.Net.Http.HttpResponseMessage> StopJobAsync(string jobNumber)
+        public HttpApiResponseMessage StopJob(string jobNumber)
         {
             var parameters = new { jobNumber = jobNumber };
-            var responseApiMessage =  await  base.DeleteAsync(BaseUriForJobTemplate, parameters);
-
-            return responseApiMessage.Response; ;
+            var responseApiMessage =    base.DeleteAsync(BaseUriForJobTemplate, parameters).Result;
+            return responseApiMessage ;
         }
     }
 }

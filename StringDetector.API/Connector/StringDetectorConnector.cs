@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StringDetector.Domain.Services;
 using System.Net.Http;
 using StringDetector.API.Client;
+using WebApiDoodle.Net.Http.Client;
 
 namespace StringDetector.API.Connector
 {
@@ -21,28 +22,36 @@ namespace StringDetector.API.Connector
 
 
 
-        public OperationResult<String> LaunchJob(string jobNumber, string configurationDirectory)
+        public HttpApiResponseMessage<TJob> LaunchJobAsync(string jobNumber, string configurationDirectory)
         {
-           HttpResponseMessage response =  _tjobClient.SubmitJobAsync(jobNumber, configurationDirectory).Result;
-           string content =   response.Content.ReadAsStringAsync().Result;
-           return new OperationResult<String>(response.IsSuccessStatusCode) { Entity = content };
+            HttpApiResponseMessage<TJob> apiResponse = _tjobClient.SubmitJob(jobNumber, configurationDirectory);
+            return apiResponse;
         }
 
-        public OperationResult StopJob(string jobNumber)
+        public HttpApiResponseMessage  StopJob(string jobNumber)
         {
-            HttpResponseMessage response = _tjobClient.StopJobAsync(jobNumber).Result;
-            string content = response.Content.ReadAsStringAsync().Result;
-            return new OperationResult<String>(response.IsSuccessStatusCode) { Entity = content };
+            HttpApiResponseMessage response = _tjobClient.StopJob(jobNumber);
+            return response;
         }
 
-        public OperationResult<String> CheckIsJobRunning(string jobNumber)
+        public OperationResult<string> CheckIsJobRunning(string jobNumber)
         {
-            HttpResponseMessage response = _tjobClient.GetJobStatusAsync(jobNumber).Result;
-            string content = response.Content.ReadAsStringAsync().Result;
-            return new OperationResult<String>(response.IsSuccessStatusCode) { Entity = content };
+            HttpApiResponseMessage<TJob> apiResponse = _tjobClient.GetJobStatus(jobNumber);
+            HttpResponseMessage response = apiResponse.Response;
+            TJob job = apiResponse.Model;
+            // for the reason that is running return false status and finish return success status code
+            bool isRunning = !apiResponse.IsSuccess;
+            string info ;
+            if(isRunning){
+                info ="The job is running in tool";
+            }else {
+                info = "The job is finised and removed from tool";
+            }
+
+            return new OperationResult<string>(isRunning) { Entity = info };
         }
 
-        public OperationResult CheckIsReadyForLaunch(string sourcePath)
+        public OperationResult<string> CheckIsReadyForLaunch(string sourcePath)
         {
 
             return new OperationResult<string>(true);
