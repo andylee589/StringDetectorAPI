@@ -22,9 +22,9 @@ namespace StringDetector.API.Connector
 
 
 
-        public HttpApiResponseMessage<TJob> LaunchJobAsync(string jobNumber, string configurationDirectory)
+        public HttpApiResponseMessage<TJob> LaunchJobAsync(string jobNumber, string configuration)
         {
-            HttpApiResponseMessage<TJob> apiResponse = _tjobClient.SubmitJob(jobNumber, configurationDirectory);
+            HttpApiResponseMessage<TJob> apiResponse = _tjobClient.SubmitJob(jobNumber, configuration);
             return apiResponse;
         }
 

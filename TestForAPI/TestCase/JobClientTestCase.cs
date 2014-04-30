@@ -31,11 +31,8 @@ namespace TestForAPI.TestCase
                 Console.WriteLine("Job Number:{0}\t Job Project Name:{1}\t Job Source Path:{2}",job.JobNumber,job.ProjectName,job.SourcePath);
                 Console.WriteLine("Job Configuration:\n{0}", job.Configuration.Configuration);
                 Console.WriteLine("Job report:\n{0}", job.Report.ReportUrl);
-                foreach (JobStateDto state in job.JobStates)
-                {
-                    Console.WriteLine("Job State:\n{0}", state.JobStatus);
-                    Console.WriteLine("Job Create On:\n{0}", state.CreatedOn);
-                }
+                Console.WriteLine("Job State:\n{0}", job.JobState.JobStatus);
+                Console.WriteLine("Job Create On:\n{0}", job.JobState.CreatedOn);
             }
           Console.WriteLine("----------------------------------End-----------------------------------------");
         }
@@ -52,11 +49,8 @@ namespace TestForAPI.TestCase
                 Console.WriteLine("Job Number:{0}\t Job Project Name:{1}\t Job Source Path:{2}", job.JobNumber, job.ProjectName, job.SourcePath);
                 Console.WriteLine("Job Configuration:\n{0}", job.Configuration.Configuration);
                 Console.WriteLine("Job report:\n{0}", job.Report.ReportUrl);
-                foreach (JobStateDto state in job.JobStates)
-                {
-                    Console.WriteLine("Job State:\n{0}", state.JobStatus);
-                    Console.WriteLine("Job Create On:\n{0}", state.CreatedOn);
-                }
+                Console.WriteLine("Job State:\n{0}", job.JobState.JobStatus);
+                Console.WriteLine("Job Create On:\n{0}", job.JobState.CreatedOn);
             }
             Console.WriteLine("----------------------------------End-----------------------------------------");
         }
@@ -92,11 +86,8 @@ namespace TestForAPI.TestCase
             Console.WriteLine("Job Number:{0}\t Job Project Name:{1}\t Job Source Path:{2}", job.JobNumber, job.ProjectName, job.SourcePath);
             Console.WriteLine("Job Configuration:\n{0}", job.Configuration.Configuration);
             Console.WriteLine("Job report:\n{0}", job.Report.ReportUrl);
-            foreach (JobStateDto state in job.JobStates)
-            {
-                Console.WriteLine("Job State:\n{0}", state.JobStatus);
-                Console.WriteLine("Job Create On:\n{0}", state.CreatedOn);
-            }
+            Console.WriteLine("Job State:\n{0}", job.JobState.JobStatus);
+            Console.WriteLine("Job Create On:\n{0}", job.JobState.CreatedOn);
             Console.WriteLine("----------------------------------End-----------------------------------------");
         }
 

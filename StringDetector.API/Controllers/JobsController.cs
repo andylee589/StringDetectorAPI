@@ -17,6 +17,7 @@ using StringDetector.API.Filters;
 using System.Reflection;
 using System.ComponentModel;
 using StringDetector.API.Connector;
+using System.IO;
 
 
 namespace StringDetector.API.Controllers
@@ -141,13 +142,13 @@ namespace StringDetector.API.Controllers
            {
                return new HttpResponseMessage(HttpStatusCode.BadRequest);
            }
-           JobStateEntity launchJobState = _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH).Entity;
-           var apiResponse =  _connector.LaunchJobAsync(jobNumber, job.SourcePath);
+          // JobStateEntity launchJobState = _jobService.AddJobState(jobNumber, JobStatusEnum.BEGIN_LAUNCH).Entity;
+           var apiResponse =  _connector.LaunchJobAsync(jobNumber, job.Configuration);
            TJob tjob = apiResponse.Model;
 
            if (!apiResponse.IsSuccess)
            {
-               _jobStateService.DeleteJobState(launchJobState);
+               //_jobStateService.DeleteJobState(launchJobState);
                return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
            }
            //job launched
@@ -157,13 +158,13 @@ namespace StringDetector.API.Controllers
            job.Report = reportPath;
            _jobService.UpdateJobByJobNumber(job.JobNumber,job);
 
-           return new HttpResponseMessage(HttpStatusCode.Accepted);
+          return  Request.CreateResponse(HttpStatusCode.Accepted,job.ToJobDto());
        }
 
 
 
        // stop the job
-       [Route("{jobNumber:regex(^[0-9]{6}$)}/Task")]
+       [Route("{jobNumber:regex(^[0-9]{6}$)}/task")]
        [HttpDelete]
        public HttpResponseMessage DeleteJobTask(string jobNumber)
        {
@@ -191,7 +192,7 @@ namespace StringDetector.API.Controllers
 
        // other  operations on  job, action : pause ,restart and so on
 
-       [Route("{jobNumber:regex(^[0-9]{6}$)}/Task")]
+       [Route("{jobNumber:regex(^[0-9]{6}$)}/task")]
        [HttpDelete]
        public HttpResponseMessage PutJobTask(string jobNumber, [FromBody]string state)
        {
@@ -253,6 +254,28 @@ namespace StringDetector.API.Controllers
        {
            return null;
        }
-     
-    }
+
+
+       //private JobReportDto getJobReportDto(string reportPath, JobEntity job)
+       //{
+       //    if (!File.Exists(reportPath))
+       //    {
+       //        throw new HttpResponseException(HttpStatusCode.NotFound);
+       //    }
+          
+       //     MemoryStream responseStream = new MemoryStream();
+       //     Stream fileStream = File.Open(reportPath, FileMode.Open);
+       //     fileStream.CopyTo(responseStream);
+       //     fileStream.Close();
+       //     responseStream.Position = 0;
+
+       //     string contentStr = new StreamContent(responseStream).ReadAsStringAsync().Result;
+       //     // save the report content 
+
+       //     return   new JobReportDto { ReportContent = contentStr, ReportUrl = reportPath );
+              
+           
+       // }
+
+      }
 }

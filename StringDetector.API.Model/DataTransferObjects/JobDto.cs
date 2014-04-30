@@ -17,6 +17,7 @@ namespace StringDetector.API.Model.DataTransferObjects
 
        public JobConfigurationDto Configuration { get; set; }
        public JobReportDto Report { get; set; }
-       public IEnumerable <JobStateDto> JobStates { get; set; }
+      // public IEnumerable <JobStateDto> JobStates { get; set; }
+       public JobStateDto JobState { get; set; }
     }
 }

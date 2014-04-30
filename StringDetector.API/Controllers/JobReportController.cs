@@ -1,4 +1,5 @@
 ﻿using StringDetector.API.Model.DataTransferObjects;
+using StringDetector.Domain.Entities;
 using StringDetector.Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -78,23 +79,23 @@ namespace StringDetector.API.Controllers
             }
             var reportPath = getJobResult.Entity.Report;
             var projectName = getJobResult.Entity.ProjectName;
-            var key = getJobResult.Entity.Key;
+            var job = getJobResult.Entity;
             if (isSimultaneous)
             {
-                return GetReportSimultaneously(reportPath, key);
+                return GetReportSimultaneously(reportPath, job);
             }
-            return GetReportAtOnce(reportPath, key);
+            return GetReportAtOnce(reportPath, job);
         }
 
 
-        private HttpResponseMessage GetReportSimultaneously(string path, Guid key)
+        private HttpResponseMessage GetReportSimultaneously(string path, JobEntity job)
         {
 
             return null;
         }
 
 
-        private HttpResponseMessage GetReportAtOnce(string reportPath, Guid key)
+        private HttpResponseMessage GetReportAtOnce(string reportPath, JobEntity job)
         {
             if (!File.Exists(reportPath))
             {
@@ -102,20 +103,32 @@ namespace StringDetector.API.Controllers
             }
             try
             {
-                MemoryStream responseStream = new MemoryStream();
-                Stream fileStream = File.Open(reportPath, FileMode.Open);
-                fileStream.CopyTo(responseStream);
-                fileStream.Close();
-                responseStream.Position = 0;
+                using (MemoryStream responseStream = new MemoryStream())
+                {
+                    using (Stream fileStream = File.Open(reportPath, FileMode.Open))
+                    {
+                        fileStream.CopyTo(responseStream);
+                        fileStream.Close();
+                        responseStream.Position = 0;
 
-                string contentStr = new StreamContent(responseStream).ReadAsStringAsync().Result;
-                HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, new JobReportDto { ReportContent = contentStr, ReportUrl = reportPath, Key = key });
-                return result;
+                        string contentStr = new StreamContent(responseStream).ReadAsStringAsync().Result;
+                        // save the report content 
+
+                        HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, new JobReportDto { ReportContent = contentStr, ReportUrl = reportPath, Key = job.Key });
+                        return result;
+                    }
+                    
+                }
+                
+               
             }
             catch (Exception excption)
             {
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError,excption.ToString()));
             }
+           
         }
+
+     
     }
 }
