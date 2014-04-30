@@ -101,32 +101,34 @@ namespace StringDetector.API.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
+            MemoryStream responseStream=null;
+            Stream fileStream = null;
             try
             {
-                using (MemoryStream responseStream = new MemoryStream())
-                {
-                    using (Stream fileStream = File.Open(reportPath, FileMode.Open))
-                    {
-                        fileStream.CopyTo(responseStream);
-                        fileStream.Close();
-                        responseStream.Position = 0;
-
-                        string contentStr = new StreamContent(responseStream).ReadAsStringAsync().Result;
-                        // save the report content 
-
-                        HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, new JobReportDto { ReportContent = contentStr, ReportUrl = reportPath, Key = job.Key });
-                        return result;
-                    }
-                    
-                }
+                responseStream = new MemoryStream();
+                fileStream = File.Open(reportPath, FileMode.Open ,FileAccess.Read,FileShare.ReadWrite );
+                fileStream.CopyTo(responseStream);
                 
+                responseStream.Position = 0;
+
+                string contentStr = new StreamContent(responseStream).ReadAsStringAsync().Result;
+                // save the report content 
+               
+                HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, new JobReportDto { ReportContent = contentStr, ReportUrl = reportPath, Key = job.Key });
+                        
+                return result;
                
             }
             catch (Exception excption)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError,excption.ToString()));
             }
-           
+
+            finally
+            {
+                fileStream.Close();
+                responseStream.Close();
+            }
         }
 
      
