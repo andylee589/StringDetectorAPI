@@ -59,10 +59,6 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp">
-      <HintPath>..\packages\PostSharp.3.1.38\lib\net20\PostSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1036,6 +1032,8 @@
     <Content Include="StringDetectorWebClient\img\jqueryui\index.php" />
     <Content Include="StringDetectorWebClient\img\pattern\index.php" />
     <Content Include="StringDetectorWebClient\img\superbox\index.php" />
+    <Content Include="StringDetectorWebClient\js\notification\SmartNotification.js" />
+    <Content Include="StringDetectorWebClient\js\notification\SmartNotification.min.js" />
     <Content Include="StringDetectorWebClient\js\plugin\bootstrap-tags\bootstrap-tagsinput.min.js.map" />
     <Content Include="StringDetectorWebClient\js\plugin\ckeditor\CHANGES.md" />
     <Content Include="StringDetectorWebClient\js\plugin\ckeditor\LICENSE.md" />
@@ -1056,6 +1054,8 @@
     <Content Include="StringDetectorWebClient\js\plugin\datatables\media\images\psd\file_types.psd" />
     <Content Include="StringDetectorWebClient\js\plugin\datatables\media\images\psd\printer.psd" />
     <Content Include="StringDetectorWebClient\js\plugin\datatables\media\js\TableTools.min.js.gz" />
+    <Content Include="StringDetectorWebClient\js\plugin\jquery-filedownload\jquery.fileDownload.js" />
+    <Content Include="StringDetectorWebClient\js\plugin\jquery-timer\jquery.timer.js" />
     <Content Include="StringDetectorWebClient\js\plugin\slickgrid\slick.editors.js--" />
     <Content Include="StringDetectorWebClient\sound\bigbox.ogg" />
     <Content Include="StringDetectorWebClient\sound\messagebox.ogg" />
@@ -1063,6 +1063,7 @@
     <Content Include="StringDetectorWebClient\sound\php\demo-contacts.php" />
     <Content Include="StringDetectorWebClient\sound\php\demo-register.php" />
     <Content Include="StringDetectorWebClient\sound\smallbox.ogg" />
+    <None Include="Properties\PublishProfiles\kjhgfdsujyhtgrf.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1272,8 +1273,6 @@
     <Content Include="StringDetectorWebClient\js\demo.js" />
     <Content Include="StringDetectorWebClient\js\libs\jquery-2.0.2.min.js" />
     <Content Include="StringDetectorWebClient\js\libs\jquery-ui-1.10.3.min.js" />
-    <Content Include="StringDetectorWebClient\js\notification\SmartNotification.js" />
-    <Content Include="StringDetectorWebClient\js\notification\SmartNotification.min.js" />
     <Content Include="StringDetectorWebClient\js\plugin\bootstrap-progressbar\bootstrap-progressbar.js" />
     <Content Include="StringDetectorWebClient\js\plugin\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="StringDetectorWebClient\js\plugin\bootstrap-slider\bootstrap-slider.min.js" />

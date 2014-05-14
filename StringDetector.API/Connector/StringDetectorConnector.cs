@@ -7,13 +7,18 @@ using StringDetector.Domain.Services;
 using System.Net.Http;
 using StringDetector.API.Client;
 using WebApiDoodle.Net.Http.Client;
+using System.Net;
 
 namespace StringDetector.API.Connector
 {
     public class StringDetectorConnector  : IConnector
     {
         private readonly ITJobClient _tjobClient;
+#if DEBUG
         private const string BaseAdress = "http://localhost:60626/";
+#else
+        private const string BaseAdress = "http://vhwebdevserver.eng.citrite.net/";
+#endif
         public StringDetectorConnector()
         {
             ApiClientContext clientContext = ApiClientContext.Create(BaseAdress);
@@ -38,17 +43,24 @@ namespace StringDetector.API.Connector
         {
             HttpApiResponseMessage<TJob> apiResponse = _tjobClient.GetJobStatus(jobNumber);
             HttpResponseMessage response = apiResponse.Response;
+            HttpStatusCode retureJobStatus = response.StatusCode;
             TJob job = apiResponse.Model;
-            // for the reason that is running return false status and finish return success status code
-            bool isRunning = !apiResponse.IsSuccess;
-            string info ;
-            if(isRunning){
-                info ="The job is running in tool";
-            }else {
-                info = "The job is finised and removed from tool";
+            //string info; bool isRunning;
+            switch (retureJobStatus)
+            {
+                
+                case HttpStatusCode.OK: //running
+                    //info = "The job is running in tool";
+                    //isRunning = true;
+                    return new OperationResult<string>(true) { Entity = "The job is running in tool" };
+                case HttpStatusCode.Accepted: //This means is finished
+                case HttpStatusCode.NotFound: //Not existing
+                    //info = "Job has finished";
+                    //isRunning = false;
+                    return new OperationResult<string>(false) { Entity = "The job does not exist anymore" };
+                default:
+                    return new OperationResult<string>(false) { Entity = "The job does not exist anymore" };
             }
-
-            return new OperationResult<string>(isRunning) { Entity = info };
         }
 
         public OperationResult<string> CheckIsReadyForLaunch(string sourcePath)
